@@ -1,0 +1,11 @@
+.: µSuper :.
+The minimalistic superuser implementation for Android
+
+
+Prebuilt binaries are available in the Downloads section.
+
+For building the app you need the Android SDK.
+For building the su binary you need the Android NDK.
+Both builds should be pretty easy to handle.
+
+See LICENSE for information on warranty and copying.

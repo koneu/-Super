@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">µSuper</string>
+    <string name="main_no_items">no apps currently installed</string>
+    <string name="refresh_list">refresh list</string>
+    <string name="show_system">show system packages</string>
+    <string name="hide_system">hide system packages</string>
+    <string name="purge_permissions">purge all granted</string>
+
+</resources>
