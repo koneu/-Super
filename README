@@ -2,7 +2,7 @@
 The minimalistic superuser implementation for Android
 
 
-Prebuilt binaries are available in the Downloads section.
+Prebuilt binaries are available in the PREBUILT directory.
 
 For building the app you need the Android SDK.
 For building the su binary you need the Android NDK.
