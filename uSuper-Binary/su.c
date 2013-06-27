@@ -16,11 +16,12 @@
 #include "arg.h"
 char *argv0;
 
-static int check_perm(const uid_t user_old);
+static char check_perm(const uid_t user_old);
 static void usage(void);
 
-static int check_perm(const uid_t user_old) {
-	int ret = 0;
+static char
+check_perm(const uid_t user_old) {
+	char ret = 0;
 	if(user_old) {
 		FILE *f;
 		f = fopen("/data/data/koneu.usu/files/permissions", "r");
@@ -48,12 +49,14 @@ static int check_perm(const uid_t user_old) {
 }
 
 
-static void usage(void) {
+static void
+usage(void) {
 	printf("usage: %s [-lfmpv] [-s shell] [-c command] [USER]\n", argv0);
 	exit(EXIT_FAILURE);
 }
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char *argv[]) {
 	int user_new = 0;
 	char *command = NULL, *shell = getenv("SHELL");
 	ARGBEGIN {
