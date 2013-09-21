@@ -16,11 +16,12 @@
 #include "arg.h"
 char *argv0;
 
-static char check_perm(const uid_t user_old);
+static char check_perm(void);
 static void usage(void);
 
 static char
-check_perm(const uid_t user_old) {
+check_perm(void) {
+	const uid_t user_old = getuid();
 	char ret = 0;
 	if(user_old) {
 		FILE *f;
@@ -84,7 +85,7 @@ main(int argc, char *argv[]) {
 	if(argc > 0) {
 		usage();
 	}
-	if(check_perm(getuid())) {
+	if(check_perm()) {
 		if(!shell) {
 			shell = "sh";
 		}
