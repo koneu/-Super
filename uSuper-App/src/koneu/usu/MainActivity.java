@@ -31,7 +31,7 @@ public class MainActivity extends ListActivity {
 
 	private SimpleAdapter adapter;
 	private boolean permChange = false;
-	private boolean sysIndicator = true;
+	private boolean sysExclude = true;
 
 	final static private boolean isSystemPackage(ApplicationInfo appInfo) {
 		return ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) ? true
@@ -51,27 +51,26 @@ public class MainActivity extends ListActivity {
 	final public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case SHOW_SYSTEM:
-			sysIndicator = false;
-			refreshList(false);
+			sysExclude = false;
+			refreshList();
 			break;
 		case HIDE_SYSTEM:
-			sysIndicator = true;
-			refreshList(true);
+			sysExclude = true;
+			refreshList();
 			break;
 		case PURGE_PERMISSIONS:
 			permList.clear();
 			permChange = true;
 		case REFRESH_LIST:
-			refreshList(sysIndicator);
+			refreshList();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	final void addApp(ApplicationInfo appInfo, PackageManager packageManager) {
+	final void addApp(CharSequence label, int userID) {
 		HashMap<String, Object> appLabels = new HashMap<String, Object>();
-		int userID = appInfo.uid;
-		appLabels.put("AppLabel", appInfo.loadLabel(packageManager));
+		appLabels.put("AppLabel", label);
 		appLabels.put("UID", userID);
 		if (permList.contains(userID)) {
 			appLabels.put("enablabel", "ENABLED");
@@ -81,13 +80,16 @@ public class MainActivity extends ListActivity {
 		list.add(appLabels);
 	}
 
-	final void refreshList(boolean sysExclude) {
+	final void refreshList() {
 		PackageManager packageManager = getPackageManager();
 		list.clear();
+		if (!sysExclude) {
+			addApp("Android Debugging Bridge", 2000);
+		}
 		for (ApplicationInfo appInfo : packageManager
 				.getInstalledApplications(PackageManager.GET_META_DATA)) {
 			if (!isSystemPackage(appInfo) || !sysExclude) {
-				addApp(appInfo, packageManager);
+				addApp(appInfo.loadLabel(packageManager), appInfo.uid);
 			}
 		}
 		adapter.notifyDataSetChanged();
@@ -137,7 +139,7 @@ public class MainActivity extends ListActivity {
 		adapter = new SimpleAdapter(this, list, R.layout.listitem,
 				new String[] { "AppLabel", "UID", "enablabel", "disablabel" },
 				new int[] { R.id.AppLabel, R.id.AppUID, R.id.enablabel,
-				R.id.disablabel });
+						R.id.disablabel });
 		setListAdapter(adapter);
 	}
 
@@ -171,7 +173,7 @@ public class MainActivity extends ListActivity {
 	final protected void onStart() {
 		super.onStart();
 		refreshPermList();
-		refreshList(sysIndicator);
+		refreshList();
 	}
 
 	@Override
