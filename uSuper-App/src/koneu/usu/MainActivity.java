@@ -84,7 +84,7 @@ public class MainActivity extends ListActivity {
 		PackageManager packageManager = getPackageManager();
 		list.clear();
 		if (!sysExclude) {
-			addApp("Android Debugging Bridge", 2000);
+			addApp("Android Debug Bridge", 2000);
 		}
 		for (ApplicationInfo appInfo : packageManager
 				.getInstalledApplications(PackageManager.GET_META_DATA)) {
